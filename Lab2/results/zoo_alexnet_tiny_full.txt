@@ -1,0 +1,14 @@
+Zoo AlexNet, Tiny ImageNet (Hugging Face mirror zh-plus/tiny-imagenet), 10 epochs, no aug, seed 42, Tesla T4
+Epoch | Train Loss | Train Acc | Val Loss | Val Acc | Val F1
+1 | 5.0781 | 1.65 | 4.9213 | 2.65 | 0.84
+2 | 4.8105 | 3.41 | 4.6769 | 4.57 | 2.21
+3 | 4.5999 | 5.29 | 4.5606 | 5.77 | 3.53
+4 | 4.4846 | 6.52 | 4.5024 | 6.23 | 4.22
+5 | 4.3963 | 7.53 | 4.3533 | 8.06 | 5.39
+6 | 4.3340 | 8.19 | 4.2683 | 9.40 | 6.49
+7 | 4.2715 | 9.09 | 4.2035 | 10.01 | 7.44
+8 | 4.2094 | 9.98 | 4.2055 | 10.03 | 7.32
+9 | 4.1609 | 10.49 | 4.1107 | 11.22 | 8.75
+10 | 4.1161 | 10.94 | 4.1170 | 11.03 | 8.38
+Training completed in 516.59s. Best Val Accuracy: 11.22% | Best Val Macro F1: 8.75%
+Model: 57,823,240 params | 189.76 MFLOPs
