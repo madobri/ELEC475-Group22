@@ -18,7 +18,7 @@ CIFAR10_VAL_ACCS = {
     "AlexNet-64 + LRN":          [45.4, 56.5, 61.3, 66.1, 69.1, 71.2, 72.5, 72.9, 75.4, 75.15],  # 10 epochs, alexnet --norm lrn
     "AlexNet-64 + BN":           [52.5, 60.8, 64.3, 71.0, 73.8, 68.8, 76.4, 79.7, 79.5, 80.0, 80.5, 79.2, 78.5, 81.18, 78.59],  # 15 epochs, alexnet --norm bn --no-augment
     "AlexNet-64 + BN + Aug":     [51.0, 59.0, 66.7, 68.6, 69.0, 69.6, 76.9, 76.9, 75.9, 78.8, 80.0, 80.8, 82.83, 79.7, 81.65],  # 15 epochs, alexnet --norm bn (augmented)
-    "PyTorch Zoo AlexNet":       [],  # zoo_alexnet run
+    "PyTorch Zoo AlexNet":       [40.85, 49.37, 53.64, 59.59, 59.89, 60.68, 63.69, 65.03, 64.72, 65.24],  # zoo_alexnet run
 }
 
 if __name__ == "__main__":

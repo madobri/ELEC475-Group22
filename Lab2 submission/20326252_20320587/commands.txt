@@ -1,0 +1,53 @@
+ELEC 475 Lab 2 - Group 22 (Madison O'Brien 20326252, Rachel Millar 20320587)
+Commands to reproduce every result in the report. Run from the Lab2/ folder.
+
+#Setup 
+pip install -r requirements.txt
+pip install thop torchinfo
+
+#Pre-lab: transforms demo and exploratory data analysis
+python demo_transforms.py
+python -m utils.eda --dataset cifar10 --out-dir plots
+
+#Step 1: LeNet baselines (CIFAR-10, 5 epochs)
+python train.py --model lenet --dataset cifar10 --epochs 5 --no-augment --seed 42 --save-model checkpoints/lenet_baseline.pth --plot-file plots/loss_lenet.png
+python train.py --model lenet_modern --dataset cifar10 --epochs 5 --no-augment --seed 42 --save-model checkpoints/lenet_modern.pth --plot-file plots/loss_lenet_modern.png
+
+#Step 2: Normalization study, AlexNet-64 (CIFAR-10, 10 epochs) 
+python train.py --model alexnet --norm none --dataset cifar10 --epochs 10 --no-augment --seed 42 --save-model checkpoints/alexnet_none.pth --plot-file plots/loss_alexnet_none.png
+python train.py --model alexnet --norm lrn --dataset cifar10 --epochs 10 --no-augment --seed 42 --save-model checkpoints/alexnet_lrn.pth --plot-file plots/loss_alexnet_lrn.png
+python train.py --model alexnet --norm bn --dataset cifar10 --epochs 10 --no-augment --seed 42 --save-model checkpoints/alexnet_bn.pth --plot-file plots/loss_alexnet_bn.png
+
+#Step 3: Data augmentation, AlexNet-64 + BN (CIFAR-10, 15 epochs)
+python train.py --model alexnet --norm bn --dataset cifar10 --epochs 15 --no-augment --seed 42 --save-model checkpoints/alexnet_no_aug.pth --plot-file plots/loss_no_aug.png
+python train.py --model alexnet --norm bn --dataset cifar10 --epochs 15 --seed 42 --save-model checkpoints/alexnet_with_aug.pth --plot-file plots/loss_with_aug.png
+
+#PyTorch Model Zoo AlexNet baseline (CIFAR-10, 10 epochs)
+python train.py --model zoo_alexnet --dataset cifar10 --epochs 10 --no-augment --seed 42 --save-model checkpoints/zoo_alexnet.pth --plot-file plots/loss_zoo_alexnet.png
+
+#Step 4: Tiny ImageNet benchmark (AlexNet-64 + BN + augmentation, 10 epochs)
+python train.py --model alexnet --norm bn --dataset tiny_imagenet --epochs 10 --seed 42 --save-model checkpoints/alexnet_tiny_imagenet.pth --plot-file plots/loss_tiny_imagenet.png
+
+#Table 7.3b: remaining Tiny ImageNet rows (10 epochs, no augmentation) ---
+python train.py --model lenet --dataset tiny_imagenet --epochs 10 --no-augment --seed 42 --save-model checkpoints/lenet_tiny.pth --plot-file plots/loss_lenet_tiny.png
+python train.py --model lenet_modern --dataset tiny_imagenet --epochs 10 --no-augment --seed 42 --save-model checkpoints/lenet_modern_tiny.pth --plot-file plots/loss_lenet_modern_tiny.png
+python train.py --model alexnet --norm none --dataset tiny_imagenet --epochs 10 --no-augment --seed 42 --save-model checkpoints/alexnet_none_tiny.pth --plot-file plots/loss_alexnet_none_tiny.png
+python train.py --model alexnet --norm lrn --dataset tiny_imagenet --epochs 10 --no-augment --seed 42 --save-model checkpoints/alexnet_lrn_tiny.pth --plot-file plots/loss_alexnet_lrn_tiny.png
+python train.py --model alexnet --norm bn --dataset tiny_imagenet --epochs 10 --no-augment --seed 42 --save-model checkpoints/alexnet_bn_tiny.pth --plot-file plots/loss_alexnet_bn_tiny.png
+python train.py --model zoo_alexnet --dataset tiny_imagenet --epochs 10 --no-augment --seed 42 --save-model checkpoints/zoo_alexnet_tiny.pth --plot-file plots/loss_zoo_alexnet_tiny.png
+
+#Step 5: Model complexity benchmark (Table 7.3a)
+python compare_models.py --dataset cifar10
+
+#Step 5: Extended ablation (one change vs. AlexNet-64 + BN baseline)
+python train.py --model alexnet --norm bn --dataset cifar10 --epochs 10 --no-augment --seed 42 --lr 3e-4 --plot-file plots/loss_alexnet_bn_lr3e-4.png
+python train.py --model alexnet --norm bn --dataset cifar10 --epochs 10 --no-augment --seed 42 --batch-size 64 --plot-file plots/loss_alexnet_bn_bs64.png
+
+#Step 5: Multi-seed evaluation (seed 42 is the Step 2 BN run) ---
+python train.py --model alexnet --norm bn --dataset cifar10 --epochs 10 --no-augment --seed 123 --plot-file plots/loss_alexnet_bn_s123.png
+python train.py --model alexnet --norm bn --dataset cifar10 --epochs 10 --no-augment --seed 999 --plot-file plots/loss_alexnet_bn_s999.png
+
+#Step 5: Ablation summary plot
+# The template's "python -m utils.visualization --plot-ablation" has no entry point,
+# so this script calls utils.visualization.plot_ablation_summary() with each run's validation accuracies.
+python make_ablation_plot.py
