@@ -1,0 +1,33 @@
+================================================================================
+ELEC 475: Transform Paradigm & Variable Type Diagnostic
+================================================================================
+
+[1] OpenCV (cv2) Output:
+    - Object Type      : <class 'numpy.ndarray'>
+    - Data Type (dtype): float32
+    - Shape (Layout)   : (64, 64, 3)  --> [Height, Width, Channels] (Channels-Last)
+    - Value Range      : Min = 0.0000, Max = 1.0000
+    - Color Space      : Converted BGR -> RGB
+    - Memory Location  : Host System RAM (CPU)
+
+[2] NumPy Output:
+    - Object Type      : <class 'numpy.ndarray'>
+    - Data Type (dtype): float32
+    - Shape (Layout)   : (64, 64, 3)  --> [Height, Width, Channels] (Channels-Last)
+    - Value Range      : Min = 0.0000, Max = 1.0000
+    - Memory Location  : Host System RAM (CPU)
+
+[3] PyTorch (torchvision) Tensor Output:
+    - Object Type      : <class 'torch.Tensor'>
+    - Data Type (dtype): torch.float32
+    - Shape (Layout)   : torch.Size([3, 64, 64])  --> [Channels, Height, Width] (Channels-First)
+    - Value Range      : Min = -1.9895, Max = 2.1265 (Standardized)
+    - Memory Location  : cuda:0 (NVIDIA GPU VRAM)
+
+--------------------------------------------------------------------------------
+Benchmark: Processing 1,000 Images (Resize + Flip + Normalize)
+--------------------------------------------------------------------------------
+- OpenCV (CPU)            :   16.24 ms  ( 61,565 img/s) + Host-to-Device Copy required
+- NumPy (CPU)             :   37.84 ms  ( 26,428 img/s) + Host-to-Device Copy required
+- PyTorch (GPU Tensors)   :  211.83 ms  (  4,721 img/s) [ZERO PCIe Transfer Overhead]
+================================================================================

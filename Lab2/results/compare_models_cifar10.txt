@@ -1,0 +1,25 @@
+===========================================================================
+ELEC 475: Lab 2 - Comprehensive Model Complexity & FLOPs Benchmark
+Device        : cuda (Tesla T4)
+Dataset       : CIFAR10 (10 classes)
+Input Shape   : (1, 3, 64, 64)
+===========================================================================
+
+Instantiating models for profiling...
+Profiling FLOPs, Multiply-Accumulates, and Latency...
+
+| Model Architecture          | Params (M) | MACs (M) | FLOPs (M) | Latency (ms) | Throughput (img/s) |
+| ----------------------------|------------|----------|-----------|--------------|------------------- |
+| 1. LeNet-5 (Base)           | 0.338      | 3.59     | 7.17      | 0.35         | 2897.5             |
+| 2. LeNet-Modern (ReLU+Pool) | 0.446      | 4.59     | 9.19      | 0.35         | 2861.4             |
+| 3. AlexNet-64 (None)        | 6.609      | 218.35   | 436.70    | 1.89         | 527.9              |
+| 4. AlexNet-64 (LRN)         | 6.609      | 218.35   | 436.70    | 1.67         | 598.1              |
+| 5. AlexNet-64 (BatchNorm)   | 6.611      | 218.98   | 437.97    | 1.48         | 674.8              |
+| 6. Torchvision Zoo AlexNet  | 57.045     | 94.10    | 188.20    | 1.91         | 523.3              |
+
+===========================================================================
+Academic Notes on Complexity Metrics:
+1. FLOPs vs MACs: 1 Multiply-Accumulate (MAC) corresponds to ~2 Floating Point Operations (FLOPs).
+2. Memory vs Compute: Dense Linear layers contribute the majority of parameters, but Conv layers dominate FLOPs.
+3. Reference: He et al. (CVPR 2016), Howard et al. (MobileNets 2017).
+===========================================================================
