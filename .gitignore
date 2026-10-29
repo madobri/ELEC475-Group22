@@ -1,2 +1,10 @@
-# Lab 3 is not part of the Lab 2 submission yet
-Lab3/
+# Lab 3: dataset, provided weights (too big for GitHub), venv and downloads
+Lab3/lab3_template/data/
+Lab3/lab3_template/.venv/
+Lab3/lab3_template/checkpoints/snoutnet.pth
+Lab3/lab3_template/checkpoints/alexnet.pth
+Lab3/lab3_template/checkpoints/vgg16.pth
+Lab3/*.zip
+
+__pycache__/
+.DS_Store
