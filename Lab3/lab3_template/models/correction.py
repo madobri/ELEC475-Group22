@@ -53,16 +53,21 @@ class CorrectionNetModified(nn.Module):
     """
     def __init__(self):
         super(CorrectionNetModified, self).__init__()
-        # ======================================================================
-        # TODO [POST-LAB STEP 5]: Implement Your Modified Correction Model
-        # ======================================================================
-        pass
+        def block(i, o):
+            return nn.Sequential(
+                nn.Conv2d(i, o, 3, padding=1), nn.BatchNorm2d(o), nn.ReLU(inplace=True),
+                nn.Conv2d(o, o, 3, padding=1), nn.BatchNorm2d(o), nn.ReLU(inplace=True),
+                nn.MaxPool2d(2, 2))
+        self.features = nn.Sequential(block(3, 32), block(32, 64),
+                                      block(64, 128), block(128, 128))
+        self.fc1 = nn.Linear(2048, 256)
+        self.drop = nn.Dropout(0.3)
+        self.fc2 = nn.Linear(256, 2)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        # ======================================================================
-        # TODO [POST-LAB STEP 5]: Implement the Forward Pass
-        # ======================================================================
-        pass
+        x = self.features(x).flatten(1)
+        x = self.drop(F.relu(self.fc1(x)))
+        return self.fc2(x)
 
 
 if __name__ == "__main__":
