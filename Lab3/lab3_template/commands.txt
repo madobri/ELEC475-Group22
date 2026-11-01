@@ -1,0 +1,11 @@
+python -m utils.correction_dataset
+python -m models.correction
+python train_correction.py --no-augment --save-model checkpoints/correction_noaug.pth --plot-file plots/loss_correction_noaug.png
+python train_correction.py --save-model checkpoints/correction_aug.pth --plot-file plots/loss_correction_aug.png
+python correct.py --checkpoint checkpoints/correction_noaug.pth
+python correct.py --checkpoint checkpoints/correction_aug.pth
+python train_correction.py --modified --no-augment --save-model checkpoints/correction_mod_noaug.pth --plot-file plots/loss_correction_mod_noaug.png
+python train_correction.py --modified --save-model checkpoints/correction_mod_aug.pth --plot-file plots/loss_correction_mod_aug.png
+python correct.py --modified --checkpoint checkpoints/correction_mod_noaug.pth
+python correct.py --modified --checkpoint checkpoints/correction_mod_aug.pth
+python evaluate.py
