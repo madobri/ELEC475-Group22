@@ -8,3 +8,12 @@ Lab3/*.zip
 
 __pycache__/
 .DS_Store
+
+# Lab 4: VOC dataset, venv, data symlinks and trained weights (~13 MB each)
+Lab4/data/
+Lab4/.venv/
+Lab4/lab4_inlab/data
+Lab4/postlab/code/data
+Lab4/postlab/results/checkpoints/
+*.pth
+*.pyc

@@ -1,0 +1,8 @@
+
+Model                         mIoU        Params    ms/img
+Teacher (FCN-ResNet50)        72.8    35,322,218      31.7
+Student, no KD                50.7     3,265,173       6.8
+Student, response KD          51.3     3,265,173       8.1
+Student, feature KD           53.0     3,265,173       6.3
+
+Saved plots/compare.png
