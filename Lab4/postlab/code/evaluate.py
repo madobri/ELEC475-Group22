@@ -4,6 +4,7 @@ import torch
 from torch.utils.data import DataLoader
 
 from models.student import StudentNet
+from models.custom_student import LiteSegNet
 from utils.dataset import get_voc
 from utils.metrics import update_confusion, mean_iou
 from utils.profiler import ms_per_image
@@ -16,19 +17,22 @@ parser.add_argument('--size', type=int, default=320)
 parser.add_argument('-b', '--batch', type=int, default=16)
 args = parser.parse_args()
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+device = torch.device('cuda' if torch.cuda.is_available() else
+                      'mps' if torch.backends.mps.is_available() else 'cpu')
 loader = DataLoader(get_voc(args.data, 'val', args.size), batch_size=args.batch, shuffle=False)
 
 models = {'Teacher (FCN-ResNet50)': load_teacher(device)}
-for kd, name in [('none', 'Student, no KD'), ('response', 'Student, response KD'),
-                 ('feature', 'Student, feature KD')]:
-    path = f'checkpoints/student_{kd}.pth'
-    if os.path.exists(path):
-        m = StudentNet(pretrained=False).to(device).eval()
-        m.load_state_dict(torch.load(path, map_location=device))
-        models[name] = m
-    else:
-        print(f'Skipping {name}: {path} not found')
+KD_NAMES = {'none': 'no KD', 'response': 'response KD', 'feature': 'feature KD', 'both': 'resp+feat KD'}
+for prefix, label, Net in [('student', 'Student', StudentNet), ('custom', 'LiteSegNet', LiteSegNet)]:
+    for kd, kd_name in KD_NAMES.items():
+        path = f'checkpoints/{prefix}_{kd}.pth'
+        name = f'{label}, {kd_name}'
+        if os.path.exists(path):
+            m = Net(pretrained=False).to(device).eval()
+            m.load_state_dict(torch.load(path, map_location=device))
+            models[name] = m
+        elif not (prefix == 'student' and kd == 'both'):
+            print(f'Skipping {name}: {path} not found')
 
 rows, examples = [], {}
 with torch.no_grad():

@@ -24,6 +24,9 @@ class ASPP(nn.Module):
 
 
 class StudentNet(nn.Module):
+    # student tap -> (teacher layer, student channels); used by train.py for feature KD
+    KD_TAPS = {'low': ('layer2', 24), 'high': ('layer4', 576)}
+
     def __init__(self, num_classes=21, pretrained=True):
         super().__init__()
         weights = MobileNet_V3_Small_Weights.DEFAULT if pretrained else None
